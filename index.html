@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Загрузка изображений</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: auto;
+            width: 80%;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #5cb85c;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+
+        #imagesContainer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<h1>Загрузка изображений по ссылке</h1>
+<form id="imageForm">
+    <input type="text" id="imageUrl" placeholder="Введите ссылку на изображение" required>
+    <input type="text" id="customText" placeholder="Введите текст" required>
+    <button type="submit">Загрузить изображение</button>
+</form>
+
+<div id="imagesContainer"></div>
+
+<script>
+    $(document).ready(function() {
+        loadImages(); // загрузить существующие изображения
+        $('#imageForm').on('submit', function(e) {
+            e.preventDefault();
+            const url = $('#imageUrl').val();
+            const text = $('#customText').val();
+            $.ajax({
+                type: 'POST',
+                url: 'upload.php',
+                data: { imageUrl: url, customText: text },
+                success: function(response) {
+                    loadImages(); // обновить список изображений
+                }
+            });
+        });
+
+        function loadImages() {
+            $.ajax({
+                url: 'load_images.php',
+                success: function(data) {
+                    $('#imagesContainer').html(data);
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>
