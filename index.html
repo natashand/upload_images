@@ -67,7 +67,7 @@
 
 <script>
     $(document).ready(function() {
-        loadImages(); // загрузить существующие изображения
+        loadImages();
         $('#imageForm').on('submit', function(e) {
             e.preventDefault();
             const url = $('#imageUrl').val();
@@ -77,7 +77,7 @@
                 url: 'upload.php',
                 data: { imageUrl: url, customText: text },
                 success: function(response) {
-                    loadImages(); // обновить список изображений
+                    loadImages();
                 }
             });
         });
