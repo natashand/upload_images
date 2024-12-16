@@ -94,6 +94,12 @@ function addTextToImage($image, $customText) {
 }
 
 function saveImage($image) {
-    $filename = 'images/' . uniqid() . '.png';
+    $directory = 'images/';
+
+    if (!is_dir($directory)) {
+        mkdir($directory, 0755, true);
+    }
+
+    $filename = $directory . uniqid() . '.png';
     imagepng($image, $filename);
 }
